@@ -1,0 +1,16 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+.cursor/
+*.pem
+.env
+.env.*
+secrets/
+scripts/
+compose*.yaml
+Dockerfile
+.dockerignore
+.DS_Store
