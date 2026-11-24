@@ -27,8 +27,20 @@ jobs:
         env:
           EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
         run: |
-          if [ -z "$EC2_HOST" ] || [ -z "$EC2_SSH_KEY" ]; then
-            echo "::error::Repository secrets EC2_HOST and EC2_SSH_KEY must be set"
+          missing=0
+          if [ -z "$EC2_HOST" ]; then
+            echo "::error::Missing repository secret EC2_HOST (example: 16.4.95.215)"
+            missing=1
+          else
+            echo "EC2_HOST is set (${#EC2_HOST} chars)"
+          fi
+          if [ -z "$EC2_SSH_KEY" ]; then
+            echo "::error::Missing repository secret EC2_SSH_KEY (private key from ~/.ssh/fastapi_ec2_deploy)"
+            missing=1
+          else
+            echo "EC2_SSH_KEY is set (${#EC2_SSH_KEY} chars)"
+          fi
+          if [ "$missing" -ne 0 ]; then
             exit 1
           fi
           mkdir -p ~/.ssh
